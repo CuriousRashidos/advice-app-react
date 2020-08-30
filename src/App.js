@@ -1,21 +1,41 @@
 import React , {useState, useEffect}from 'react'
 import axios from 'axios'
-3
-import './App.css '
+import './App.css'
+
+
 
 const App = () => {
-    const [advice, setAdvice] = useState('')
+    const [newAdvice, setNewAdvice] = useState('')
     useEffect(
         ()=> {
-            axios.get()
+            fetchAdvices()
         },[]
     )
+
     const fetchAdvices = () => {
-        axios.get()
+        axios.get('https://api.adviceslip.com/advice')
+        .then(response => {
+            let { advice } = response.data.slip
+            setNewAdvice(advice)
+        })
+        .catch(error => {
+            console.log(error)
+        })
     }
+    
     return (
-        <div>
-            <h1> Hello world</h1>
+        <div className='app'>
+            <div className='card'>
+                <h1 className='header'>
+                    {newAdvice}
+                </h1>
+                <button className='button' onClick={fetchAdvices}>
+                    <span>
+                        GIVE ME ADVICE
+                    </span>
+                </button>
+            </div>
+            
         </div>
     )
 }
